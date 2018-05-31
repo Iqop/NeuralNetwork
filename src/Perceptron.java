@@ -9,6 +9,9 @@ public class Perceptron {
     Function<List<Double>,Double> input_function;
     Function<Double,Double> activation_function;
 
+    Double input_value;
+    Double output;
+
     Perceptron(Function<List<Double>,Double> input_function, Function<Double,Double> activation_function){
         this.input_function = input_function;
         this.activation_function = activation_function;
@@ -28,8 +31,12 @@ public class Perceptron {
         for(Arc arc : input_links){
             list.add(arc.value * arc.weight);
         }
-        double value = input_function.apply(list);
-        double output = activation_function.apply(value);
+        input_value = input_function.apply(list);
+        output = activation_function.apply(input_value);
+
+        for (Arc a : output_links){
+            a.value = output;
+        }
     }
 
 }
