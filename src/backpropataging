@@ -1,0 +1,17 @@
+pseudocode
+backpropagating(){
+  for (each output node k){
+    sigma[k] = value[k]*1-(value[k])*(value[k]-target[k]);
+  }
+  for (each hidden layer J){
+    for (each node j in J){
+      for (each sigma[k] in layer J+1=K){
+        sigma[j]+=sigma[k]*Wjk;
+      }
+      sigma[j]=sigma[j]*(value[j])*1-(value[j]);
+    }
+  }
+  for  (each arc a){ 
+    a.W-=training_rate*sigma[dest]*value[origin];
+  } 
+}  
