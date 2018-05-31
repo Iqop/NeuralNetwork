@@ -1,5 +1,4 @@
 import java.util.Random;
-
 public class Arc {
     Perceptron origin;
     Perceptron destination;
