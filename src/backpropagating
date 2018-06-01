@@ -1,0 +1,39 @@
+pseudocode
+learning(){
+  while (error>target_error){
+    error = 0;
+    for (each test in test_set){
+      frontpropagating();
+      backpropagating();
+      error=max(error,positive(target-output));
+    }
+  }
+}
+frontpropagating(){
+  for (each layer J){
+    for (each node j in J){
+      for (each arc a in input j){
+        value[j]+=value[a];
+      }
+      for (each arc a in output j){
+        value[a]=value[j]*a.W;
+      }
+    }
+  }
+}
+backpropagating(){
+  for (each output node k){
+    sigma[k] = value[k]*1-(value[k])*(value[k]-target[k]);
+  }
+  for (each hidden layer J){
+    for (each node j in J){
+      for (each sigma[k] in layer J+1=K){
+        sigma[j]+=sigma[k]*Wjk;
+      }
+      sigma[j]=sigma[j]*(value[j])*1-(value[j]);
+    }
+  }
+  for  (each arc a){ 
+    a.W-=training_rate*sigma[dest]*value[origin];
+  } 
+}  
