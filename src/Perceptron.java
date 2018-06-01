@@ -9,9 +9,9 @@ public class Perceptron {
     Function<List<Double>,Double> input_function;
     Function<Double,Double> activation_function;
 
-    Double input_value;
-    Double output;
-
+    double input_value;
+    double output;
+    double sigma;
 
     Perceptron(Function<List<Double>,Double> input_function, Function<Double,Double> activation_function){
         this.input_function = input_function;

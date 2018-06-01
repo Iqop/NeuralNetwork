@@ -12,4 +12,12 @@ public class Arc {
         Random r = new Random();
         this.weight = -1 + 2*r.nextDouble();
     }
+
+
+    Arc(double value,Perceptron destination){
+        this.origin = null;
+        this.destination = destination;
+        this.value = value;
+        this.weight = 1;
+    }
 }
