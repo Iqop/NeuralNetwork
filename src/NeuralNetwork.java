@@ -84,9 +84,9 @@ public class NeuralNetwork {
             double result = calcOutput(input,hidden_layer,output);
 
             if (Math.abs(result - 0) <=0.05){
-                System.out.println("Even");
-            }else if (Math.abs(result - 1) <=0.05){
                 System.out.println("Odd");
+            }else if (Math.abs(result - 1) <=0.05){
+                System.out.println("Even");
             }
 
             System.out.print("a,b,c,d - ");
