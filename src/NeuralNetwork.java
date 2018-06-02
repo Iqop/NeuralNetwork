@@ -141,7 +141,7 @@ public class NeuralNetwork {
         return (double) 1 / (1+Math.pow(Math.E,(-value)));
     }
     public static double input_function(List<Double> list){
-        int aggregation=0;
+        double aggregation=0;
         for(double val: list){
             aggregation+=val;
         }
