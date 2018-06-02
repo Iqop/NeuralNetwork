@@ -5,7 +5,8 @@ import java.util.function.Function;
 public class Perceptron {
     List<Arc> input_links;
     List<Arc> output_links;
-
+    Arc bias;
+    
     Function<List<Double>,Double> input_function;
     Function<Double,Double> activation_function;
 
@@ -33,6 +34,7 @@ public class Perceptron {
             list.add(arc.value * arc.weight);
         }
         input_value = input_function.apply(list);
+        input_value+=bias.value*bias.weight;
         output = activation_function.apply(input_value);
 
         for (Arc a : output_links){
