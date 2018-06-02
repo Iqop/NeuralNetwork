@@ -44,7 +44,7 @@ public class NeuralNetwork {
                     //Back Propagation
 
                     output.sigma = output.output*(1 - output.output)*(obtainedResponse-solucoes[i]);
-
+                    output.bias.weight -= learningRate*output.sigma
                     for(int j=0;j<NUMBER_OF_HIDDEN_LAYER_NODES;j++){
                         hidden_layer[j].sigma = (output.sigma*hidden_layer[j].output_links.get(0).weight)*(hidden_layer[j].output*(1-hidden_layer[j].output));
                     }
@@ -59,6 +59,7 @@ public class NeuralNetwork {
                         for(Arc arc : hidden_layer[j].output_links){
                             arc.weight -= learningRate*arc.destination.sigma*hidden_layer[j].output;
                         }
+                        hidden_layer[j].bias.weight -= learningRate*hidden_layer[j].sigma;
                     }
                     first_access=false;
                 }
@@ -118,10 +119,11 @@ public class NeuralNetwork {
         for(int i=0;i<NUMBER_OF_INPUT_NODES;i++){
             input[i]= new Perceptron(NeuralNetwork::input_function,NeuralNetwork::activation_function);
             input[i].add_input_arc(new Arc(0,input[i]));
-
+            input[i].bias = new Arc(null,0, hidden_layer[i]);
         }
         for(int i=0;i<NUMBER_OF_HIDDEN_LAYER_NODES;i++){
             hidden_layer[i] = new Perceptron(NeuralNetwork::input_function,NeuralNetwork::activation_function);
+            hidden_layer[i].bias = new Arc(null,1, hidden_layer[i]);
             //For each output_node from
             for(int j=0;j<NUMBER_OF_INPUT_NODES;j++){
                 Arc connection = new Arc(input[j],0,hidden_layer[i]);
@@ -131,8 +133,8 @@ public class NeuralNetwork {
             Arc outputConnection = new Arc(hidden_layer[i],0,output);
             hidden_layer[i].add_output_arc(outputConnection);
             output.add_input_arc(outputConnection);
-
         }
+        output.bias= new Arc(null,1, output);
     }
 
 
