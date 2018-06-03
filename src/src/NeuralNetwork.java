@@ -124,7 +124,7 @@ public class NeuralNetwork {
     for(int i=0;i<NUMBER_OF_INPUT_NODES;i++){
       input[i]= new Perceptron(NeuralNetwork::input_function,NeuralNetwork::activation_function);
       input[i].add_input_arc(new Arc(0,input[i]));
-      input[i].bias = new Arc(null,0, hidden_layer[i]);
+      input[i].bias = new Arc(null,0, input[i]);
     }
     for(int i=0;i<NUMBER_OF_HIDDEN_LAYER_NODES;i++){
       hidden_layer[i] = new Perceptron(NeuralNetwork::input_function,NeuralNetwork::activation_function);
