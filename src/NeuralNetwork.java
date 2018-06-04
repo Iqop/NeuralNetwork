@@ -1,22 +1,51 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class NeuralNetwork {
   
-  public static final int NUMBER_OF_INPUT_NODES =4;
-  public static final int NUMBER_OF_HIDDEN_LAYER_NODES = 4;
+  public static int NUMBER_OF_INPUT_NODES;
+  public static  int NUMBER_OF_HIDDEN_LAYER_NODES;
   public static double learningRate =0.5;
-  public static void main(String[] args){
+  public static void main(String[] args) throws FileNotFoundException {
+    Scanner trainingInfo = new Scanner(new File(args[0]));
+    int conjuntosTreino[][]; //= {{0,0,0,0},{0,0,0,1},{0,0,1,0},{0,0,1,1},{0,1,0,0},{0,1,0,1},{0,1,1,0},{0,1,1,1},{1,0,0,0},{1,0,0,1},{1,0,1,0},{1,0,1,1},{1,1,0,0},{1,1,0,1},{1,1,1,0},{1,1,1,1}};
+    int solucoes[];// = {0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0};
+    /*
+
+      Read from file
+      Format:
+
+      number of input nodes
+      number of examples
+      training set    solution
+
+    */
+    NUMBER_OF_INPUT_NODES = Integer.parseInt(trainingInfo.nextLine());
+    int nTrainingSets = Integer.parseInt(trainingInfo.nextLine());
+    conjuntosTreino = new int[nTrainingSets][NUMBER_OF_INPUT_NODES];
+    solucoes = new int[nTrainingSets];
+
+    for(int i=0;i<nTrainingSets;i++){
+      for(int j=0;j<NUMBER_OF_INPUT_NODES;j++){
+        conjuntosTreino[i][j] = trainingInfo.nextInt();
+      }
+      solucoes[i]= trainingInfo.nextInt();
+    }
+
+    trainingInfo.close();
+
+    Scanner scan = new Scanner(System.in);
+    System.out.print("Number of hidden-layer nodes: ");
+    NUMBER_OF_HIDDEN_LAYER_NODES = scan.nextInt();
+
     Perceptron input[] = new Perceptron[NUMBER_OF_INPUT_NODES];
     Perceptron hidden_layer[] = new Perceptron[NUMBER_OF_HIDDEN_LAYER_NODES];
     Perceptron output = new Perceptron(NeuralNetwork::input_function,NeuralNetwork::activation_function);
-    
+
     //Conjunto de treino 1
-    int conjuntosTreino[][] = {{0,0,0,0},{0,0,0,1},{0,0,1,0},{0,0,1,1},{0,1,0,0},{0,1,0,1},{0,1,1,0},{0,1,1,1},{1,0,0,0},{1,0,0,1},{1,0,1,0},{1,0,1,1},{1,1,0,0},{1,1,0,1},{1,1,1,0},{1,1,1,1}};
-    int solucoes[] = {0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0};
-    
-    Scanner scan = new Scanner(System.in);
     scan.useLocale(Locale.US);
     System.out.print("What is the learning rate(\u03BB): ");
     learningRate = scan.nextDouble();
@@ -75,7 +104,14 @@ public class NeuralNetwork {
     
     System.out.println("Training Done");
     System.out.println("Ready to receive inputs");
-    System.out.print("Bits na forma: 1º,2º,3º,4º - ");
+    System.out.print("Input example: ");
+
+    for(int i=0;i<NUMBER_OF_INPUT_NODES-1;i++){
+      System.out.print(conjuntosTreino[0][i]+", ");
+    }
+    System.out.println(conjuntosTreino[0][NUMBER_OF_INPUT_NODES-1]);
+
+    System.out.print("Bits (comma separated): ");
     String querie;
     querie = scan.next();
     while(!querie.toLowerCase().equals("exit")){
@@ -91,7 +127,7 @@ public class NeuralNetwork {
         System.out.println("Odd");
       }
       
-      System.out.print("Bits na forma: 1º,2º,3º,4º - ");
+      System.out.print("Bits (comma separated): ");
       querie=scan.next();
     }
     
